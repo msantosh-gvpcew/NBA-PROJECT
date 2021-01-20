@@ -1,3 +1,49 @@
+<?php
+
+session_start();
+
+
+$db=mysqli_connect('localhost','root','','project') or die("could not connect to database");
+//login user
+
+if(isset($_POST['login_user']))
+{
+    $email=mysqli_real_escape_string($db,$_POST['email']);
+    $password=mysqli_real_escape_string($db,$_POST['password']);
+
+    if(empty($email))
+    {
+       array_push($errors,"Email id is required");
+    }
+    if(empty($password))
+    {
+       array_push($errors,"Password is required");
+    }
+    if(count($errors)==0)
+    {
+      $password=md5($password);
+
+      $query="SELECT * FROM user WHERE email='$email' AND password='$password' ";
+      $results=mysqli_query($db,$query);
+
+      if(mysqli_num_rows($results)) {
+         $_SESSION['email']=$email;
+         $_SESSION['success']="Logged in successfully";
+         header('location:index.php');
+     }else {
+        array_push($errors, "Wrong email id/password combination. Please try again.");
+}
+}
+}
+?>
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
   <head>
@@ -8,7 +54,7 @@
     Document Title
     =============================================
     -->
-    <title>Titan | Multipurpose HTML5 Template</title>
+    <title>Gvpcew NBA</title>
     <!--  
     Favicons
     =============================================
@@ -58,15 +104,20 @@
       <div class="page-loader">
         <div class="loader">Loading...</div>
       </div>
-      <nav class="navbar navbar-custom navbar-fixed-top navbar-transparent" role="navigation">
+      <nav class="navbar navbar-custom navbar-fixed-top navbar-transparent" role="navigation" style="background-color: black;">
         <div class="container">
-          <div class="navbar-header">
-            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#custom-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="index.html">Titan</a>
+          <div class="nav navbar-nav navbar-left" >
+            <img src="gvpcew logo.png" alt="gvpcew logo" style="height:70px; width:70px;">
           </div>
-          <div class="collapse navbar-collapse" id="custom-collapse">
+          <div class="nav navbar-nav navbar-right" >
+            
+            <a class="navbar-brand" href="index_mp_fullscreen_video_background.html" style="font-size:28px">GVP COLLEGE OF ENGINEERING FOR WOMEN</a>
+          </div>
+          <!--<div class="collapse navbar-collapse" id="custom-collapse" style="font-size: small">
             <ul class="nav navbar-nav navbar-right">
-              <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Home</a>
-                <ul class="dropdown-menu">
+
+              <li><a href="index_mp_fullscreen_video_background.html">Home</a>
+                <!--<ul class="dropdown-menu">
                   <li><a href="index_mp_fullscreen_video_background.html">Default</a></li>
                   <li><a href="index_op_fullscreen_gradient_overlay.html">One Page</a></li>
                   <li><a href="index_agency.html">Agency</a></li>
@@ -78,44 +129,11 @@
                   <li><a href="index_shop.html">Shop</a></li>
                 </ul>
               </li>
-              <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Headers</a>
+              
+              <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Documents</a>
                 <ul class="dropdown-menu">
-                  <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Static Image Header</a>
-                    <ul class="dropdown-menu">
-                      <li><a href="index_mp_fullscreen_static.html">Fulscreen</a></li>
-                      <li><a href="index_mp_classic_static.html">Classic</a></li>
-                    </ul>
-                  </li>
-                  <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Flexslider Header</a>
-                    <ul class="dropdown-menu">
-                      <li><a href="index_mp_fullscreen_flexslider.html">Fulscreen</a></li>
-                      <li><a href="index_mp_classic_flexslider.html">Classic</a></li>
-                    </ul>
-                  </li>
-                  <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Video Background Header</a>
-                    <ul class="dropdown-menu">
-                      <li><a href="index_mp_fullscreen_video_background.html">Fulscreen</a></li>
-                      <li><a href="index_mp_classic_video_background.html">Classic</a></li>
-                    </ul>
-                  </li>
-                  <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Text Rotator Header</a>
-                    <ul class="dropdown-menu">
-                      <li><a href="index_mp_fullscreen_text_rotator.html">Fulscreen</a></li>
-                      <li><a href="index_mp_classic_text_rotator.html">Classic</a></li>
-                    </ul>
-                  </li>
-                  <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Gradient Overlay Header</a>
-                    <ul class="dropdown-menu">
-                      <li><a href="index_mp_fullscreen_gradient_overlay.html">Fulscreen</a></li>
-                      <li><a href="index_mp_classic_gradient_overlay.html">Classic</a></li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-              <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Pages</a>
-                <ul class="dropdown-menu">
-                  <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">About</a>
-                    <ul class="dropdown-menu">
+                  <li><a href="index_mp_fullscreen_video_background.html">Pos</a>
+                   <!-- <ul class="dropdown-menu">
                       <li><a href="about1.html">About 1</a></li>
                       <li><a href="about2.html">About 2</a></li>
                       <li><a href="about3.html">About 3</a></li>
@@ -123,35 +141,35 @@
                       <li><a href="about5.html">About 5</a></li>
                     </ul>
                   </li>
-                  <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Services</a>
-                    <ul class="dropdown-menu">
+                  <li><a href="index_mp_fullscreen_video_background.html">ECE</a>
+                    <!--<ul class="dropdown-menu">
                       <li><a href="service1.html">Service 1</a></li>
                       <li><a href="service2.html">Service 2</a></li>
                       <li><a href="service3.html">Service 3</a></li>
                     </ul>
                   </li>
-                  <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Pricing</a>
-                    <ul class="dropdown-menu">
+                  <li><a href="index_mp_fullscreen_video_background.html">EEE</a>
+                    <!--<ul class="dropdown-menu">
                       <li><a href="pricing1.html">Pricing 1</a></li>
                       <li><a href="pricing2.html">Pricing 2</a></li>
                     </ul>
                   </li>
-                  <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Gallery</a>
-                    <ul class="dropdown-menu">
+                  <li><a href="index_mp_fullscreen_video_background.html">CSE</a>
+                    <!--<ul class="dropdown-menu">
                       <li><a href="gallery_col_2.html">2 Columns</a></li>
                       <li><a href="gallery_col_3.html">3 Columns</a></li>
                       <li><a href="gallery_col_4.html">4 Columns</a></li>
                       <li><a href="gallery_col_6.html">6 Columns</a></li>
                     </ul>
                   </li>
-                  <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Contact</a>
-                    <ul class="dropdown-menu">
+                  <li><a href="index_mp_fullscreen_video_background.html">IT</a>
+                    <!--<ul class="dropdown-menu">
                       <li><a href="contact1.html">Contact 1</a></li>
                       <li><a href="contact2.html">Contact 2</a></li>
                       <li><a href="contact3.html">Contact 3</a></li>
                     </ul>
                   </li>
-                  <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Restaurant menu</a>
+                  <!--<li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Restaurant menu</a>
                     <ul class="dropdown-menu">
                       <li><a href="restaurant_menu1.html">Menu 2 Columns</a></li>
                       <li><a href="restaurant_menu2.html">Menu 3 Columns</a></li>
@@ -162,9 +180,19 @@
                   <li><a href="404.html">Page 404</a></li>
                 </ul>
               </li>
-              <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Portfolio</a>
-                <ul class="dropdown-menu" role="menu">
-                  <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Boxed</a>
+              <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Departments</a>
+                <ul class="dropdown-menu">
+                  <li><a href="index_mp_fullscreen_video_background.html">ECE</a>
+                  </li>
+                  <li><a href="index_mp_fullscreen_video_background.html">EEE</a>
+                  </li>
+                  <li><a href="index_mp_fullscreen_video_background.html">CSE</a>
+                  </li>
+                  <li><a href="index_mp_fullscreen_video_background.html">IT</a>
+                  </li>
+                  <li><a href="index_mp_fullscreen_video_background.html">BS&H</a>
+                  </li>
+                  <!--<li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Boxed</a>
                     <ul class="dropdown-menu">
                       <li><a href="portfolio_boxed_col_2.html">2 Columns</a></li>
                       <li><a href="portfolio_boxed_col_3.html">3 Columns</a></li>
@@ -240,7 +268,8 @@
                   </li>
                 </ul>
               </li>
-              <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Blog</a>
+              <li><a href="#team_mem">Team</a>
+              <!--<li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Blog</a>
                 <ul class="dropdown-menu" role="menu">
                   <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Standard</a>
                     <ul class="dropdown-menu">
@@ -269,8 +298,8 @@
                     </ul>
                   </li>
                 </ul>
-              </li>
-              <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Features</a>
+              </li>-->
+              <!--<li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Features</a>
                 <ul class="dropdown-menu" role="menu">
                   <li><a href="alerts-and-wells.html"><i class="fa fa-bolt"></i> Alerts and Wells</a></li>
                   <li><a href="buttons.html"><i class="fa fa-link fa-sm"></i> Buttons</a></li>
@@ -341,7 +370,7 @@
               <!--                    |-->
               <!--                    button.search-btn(type='submit')-->
               <!--                        i.fa.fa-search-->
-              <li class="dropdown"><a class="dropdown-toggle" href="documentation.html" data-toggle="dropdown">Documentation</a>
+              <!--<li class="dropdown"><a class="dropdown-toggle" href="documentation.html" data-toggle="dropdown">Documentation</a>
                 <ul class="dropdown-menu">
                   <li><a href="documentation.html#contact">Contact Form</a></li>
                   <li><a href="documentation.html#reservation">Reservation Form</a></li>
@@ -351,25 +380,63 @@
                   <li><a href="documentation.html#changelog">Changelog</a></li>
                 </ul>
               </li>
-            </ul>
+            </ul>-->
           </div>
         </div>
       </nav>
-      <section class="home-section home-full-height bg-dark-30" id="home" data-background="assets/images/section-5.jpg">
-        <div class="video-player" data-property="{videoURL:'https://www.youtube.com/watch?v=bNucJgetMjE', containment:'.home-section', startAt:18, mute:false, autoPlay:true, loop:true, opacity:1, showControls:false, showYTLogo:false, vol:25}"></div>
+      <section class="home-section home-full-height bg-dark-30" style="height: 2000px" id="home">
+        <div class="video-player" data-property="{videoURL:'https://youtu.be/uLAD6prYrUw', containment:'.home-section', startAt:1, mute:true, autoPlay:true, loop:true, opacity:0.2, showControls:false, showYTLogo:false, vol:25}"></div>
         <div class="video-controls-box">
           <div class="container">
             <div class="video-controls"><a class="fa fa-volume-up" id="video-volume" href="#">&nbsp;</a><a class="fa fa-pause" id="video-play" href="#">&nbsp;</a></div>
           </div>
         </div>
-        <div class="titan-caption">
-          <div class="caption-content">
-            <div class="font-alt mb-30 titan-title-size-1">Hello &amp; welcome</div>
-            <div class="font-alt mb-40 titan-title-size-4">We are Titan</div><a class="section-scroll btn btn-border-w btn-round" href="#about">Learn More</a>
+        <div class="titan-caption" style="color: black">
+          
+ <section class="module">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-7 col-sm-offset-0" style="font-weight: bold;">
+
+               
+                <h4 class="font-alt mb-40 titan-title-size-3" style="letter-spacing: -1px;">NBA Data Management System<br><h3 class="font-alt mb-30 titan-title-size-2" style="padding-left: 200px">...supporting NBA Initiative</h3></h4>
+
+                <div style=" position:absolute;font-size: 15px;font-family: Arial, Helvetica, sans-serif; width: 580px;">
+                  <h3 style="font-weight: bold;">Institute Vision</h3>
+                  <p>To emerge as an acclaimed centre of learning that provides value based technical education for the holistic development of students</p>
+
+                  <h3 style="font-weight: bold;">Institute Mission</h3>
+                  <p>Undertake activities that provide value based knowledge in Science,Engineering & Technology
+                  <br>Provide opportunities for learning through Industry-Institute interaction on the state-of-the-art technologies<br>
+                  Create collaborative environment for research, innovation and entrepreneurship<br>
+                  Promote activities that bring in a sense of social responsibility</p>
+                </div>
+               
+                
+              </div>
+              <div class="col-sm-5 col-sm-offset-7 mb-sm-40">
+                <h3 class="font-alt" style="font-weight: bold;">Login</h3>
+                <hr class="divider-w mb-10">
+                <form class="form">
+                  <div class="form-group">
+                    <input class="form-control" id="username" pattern="[A-Za-z]" type="text" name="username" placeholder="Username"/>
+                  </div>
+                  <div class="form-group">
+                    <input class="form-control" id="password" type="password" name="password" placeholder="Password"/>
+                  </div>
+                  <div class="form-group">
+                    <button class="btn btn-round btn-b">Login</button>
+                  </div>
+                  <div class="form-group"><a href="register.html" style="font-size: 18px; font-weight: bold; " > Register</a></div>
+                </form>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
-      <div class="main">
+        </section>
+</div>
+          
+</section>
+      <!--<div class="main">
         <section class="module" id="alt-features">
           <div class="container">
             <div class="row">
@@ -579,6 +646,7 @@
           </div>
         </section>
         <hr class="divider-w">
+        <a id="team_mem">
         <section class="module" id="team">
           <div class="container">
             <div class="row">
@@ -651,6 +719,7 @@
             </div>
           </div>
         </section>
+      </a>
         <section class="module bg-dark-60 pt-0 pb-0 parallax-bg testimonial" data-background="assets/images/testimonial_bg.jpg">
           <div class="testimonials-slider pt-140 pb-140">
             <ul class="slides">
@@ -898,18 +967,21 @@
               </div>
             </div>
           </div>
-        </div>
+        </div>-->
         <hr class="divider-d">
         <footer class="footer bg-dark">
           <div class="container">
             <div class="row">
               <div class="col-sm-6">
-                <p class="copyright font-alt">&copy; 2017&nbsp;<a href="index.html">TitaN</a>, All Rights Reserved</p>
+                <p class="copyright font-alt">&copy;&nbsp;<a href="index.html">developed by <br> department of information technology  </a></p>
+                
               </div>
-              <div class="col-sm-6">
-                <div class="footer-social-links"><a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-dribbble"></i></a><a href="#"><i class="fa fa-skype"></i></a>
-                </div>
-              </div>
+              <div class="col-sm-6" >
+                <!--<div class="footer-social-links"><a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-dribbble"></i></a><a href="#"><i class="fa fa-skype"></i></a>
+                </div>-->
+                <a href="team.html" class="font-alt" style="float:right; font-size: 20px">team</a>
+
+                              </div>
             </div>
           </div>
         </footer>
